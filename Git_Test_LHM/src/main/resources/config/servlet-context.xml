@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- ===================================================================== -->
+	<!--  파일업로드 처리를 위해 form entype="multipart" .. . . 
+	스프링 컨트롤러에서 폼 파라미터 데이터를 처리하기 위해 (또는 multipart, .. . . ) 
+	org.spring. .. . . .
+	bean태그 사용하여 객체 설정 
+	=> id속성값 : multipartResolver
+	=> beans 태그 사이에 파일업로드 옵션 (사이즈,인코딩) 설정
+	이때, 각 name 속성값은 고정된 값 사용 -->	
+	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 파일 업로드시 최대파일. . . . . .. .-->
+		<beans:property name="maxUploadSize" value="10485760"></beans:property>	
+		<beans:property name="defaultEncoding" value="UTF=8"></beans:property>	
+	</beans:bean>
+	<context:component-scan base-package="com.itwillbs.gittest_lhm" />
+	
+	<!-- ===================================================================== -->
+	<!-- 트랜잭션 처리에 필요한 tx:annotation-driven 태그 추가(namespaces 탭에서 tx 추가 필요) -->
+	<tx:annotation-driven/>
+	
+</beans:beans>

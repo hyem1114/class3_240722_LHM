@@ -1,0 +1,40 @@
+@charset "UTF-8";
+#top_menu{
+	text-align: right;
+	
+	
+}
+
+#footer_area{
+	
+	text-align: center;
+}
+
+
+
+#main_menu{
+	
+	text-align: center;
+}
+article {
+	
+	min-height: 200px;
+	
+}
+
+article h1,h3{ text-align: center;} 
+
+article table{
+	margin: auto;
+}
+
+#preview_profile{
+	width: 100px;
+	height: 100px;
+	
+}
+
+#loginForm {
+	
+	text-align: center;
+}

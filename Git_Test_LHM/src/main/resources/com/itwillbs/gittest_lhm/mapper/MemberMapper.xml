@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.gittest_lhm.mapper.MemberMapper">
+	
+	<!-- 	주석 달아야함  -->
+	<insert id="insertMember">
+	INSERT INTO member 
+	VALUES(
+		null			-- 번호(idx)증가
+		,#{name}	
+		,#{id}	
+		,#{passwd}	
+		,#{post_code}	
+		,#{address1}	
+		,#{address2}	
+<!-- 		,#{email}	email1 email2를 결합하여 전달받았을경우  -->
+		,CONCAT(#{email1},'@',#{email2}) -- 이메일 주소 (email1 , email2 문자열 결합)
+		,#{job}	
+		,#{gender}	
+		,#{hobby}	
+		,#{motivation}	
+		,NOW()			-- 가입일자는 현재 시스템 날짜 및 시각 사용
+		,null			-- 탈퇴일자	
+		,1				-- 회원상태 기본값 1
+		,'N'			-- 메일인증여부 기본값 'N'
+	
+	
+	
+	)
+	</insert>
+
+	<select id="selectMemberPasswd" resultType="String">
+	SELECT passwd
+	FROM member
+	WHERE id = #{id} 
+	</select>
+	
+	
+	<!-- 회원 아이디에 대한 상세조회 -->
+	<select id="selectMember" resultType="member">
+	
+	SELECT *
+	FROM member
+	WHERE id = #{id} 
+	
+	
+	</select>
+	<!-- 회원 아이디가 있는 레코드 수정 -->
+	<!-- 뷰페이지에서 email결합해서 concat 불필요 -->
+	<update id="updateMember">
+		UPDATE member
+		SET
+			name = #{name}
+<!-- 		새 패스워드 존재여부에 따라 passwd 컬럼 update 여부가 결정되야함  -->
+<!--		새 패스워드가 존재할경우(널스트링이 아님)  passwd  컬럼 수정문장을 set 절에 추가 => if 필요 -->
+			<if test="!passwd.equals('')">
+				, passwd = #{passwd}
+			</if>
+			, post_code = #{post_code}
+			, address1 = #{address1}
+			, address2 = #{address2}
+			, email = #{email}
+			, job = #{job}
+			, gender = #{gender}
+			, hobby = #{hobby}
+			, motivation = #{motivation}
+		WHERE
+			id = #{id}
+</update>
+	
+	<!-- 회원 상태(정상, 휴면, 탈퇴) 수정 - UPDATE -->
+	<!-- 전달받은 아이디에 해당하는 member_status 컬럼값을 전달받은 member_status 값으로 설정 -->
+	<!-- 탈퇴일자(withdraw_date)는 현재 시스템의 시각 정보 활용 => NOW() -->
+	<update id="updateMemberStatus">
+		UPDATE member
+		SET	
+			member_status = #{member_status}
+			, withdraw_date = NOW()
+		WHERE 
+			id = #{id}
+	</update>
+
+</mapper>
