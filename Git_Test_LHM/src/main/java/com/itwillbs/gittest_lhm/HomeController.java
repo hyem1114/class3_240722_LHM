@@ -33,6 +33,8 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
+		// index.jsp 페이지 포워딩
+		
 		return "index";
 	}
 	
